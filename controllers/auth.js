@@ -81,3 +81,13 @@ export const loginUser= async (req, res, next) => {
     }
 
 }
+
+export const getUsers = async (req, res, next) => {
+    try {
+        const users = await User.find().select("-password"); // Exclude password field
+        res.status(200).json(users);
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        next(error);
+    }
+}
