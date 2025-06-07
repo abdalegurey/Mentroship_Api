@@ -48,14 +48,25 @@ const PORT = process.env.PORT  || 3000; // Use environment variable or default t
  app.use(express.json()); // Middleware to parse JSON
 // // Sample in-memory data
 
+
+
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://localhost:5879',
+];
+
 app.use(cors({
-
-    origin: "http://localhost:5879",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-
-
-
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
+
 
 app.use(morgan("combined"));
 
