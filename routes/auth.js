@@ -68,7 +68,7 @@ router.get('/User', getUsers);
 
 router.post("/login", loginUser);
 
-//proteted route
+//proteted route not accessible without authentication
 
 router.get("/profile",protect,(req,res) => {
    console.log("req.user:", req.user);
