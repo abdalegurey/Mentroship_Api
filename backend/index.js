@@ -108,17 +108,15 @@ app.use("/api/Tasks", TaskRoutes);
 
 // Server fronted in Production
 if (process.env.NODE_ENV === "production") {
+  const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-    app.use(express.static(path.join(__dirname, '../frontend/dist')));
-
-    // Serve the frontend app
-
-    app.get(/.*/, (req, res) => {
-        res.send(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
-    })
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+  });
 }
+
 
 
 
