@@ -3,6 +3,8 @@ import express from 'express';
 const app = express();
 import path from 'path';
 import { fileURLToPath } from 'url';
+
+
 //const PORT = 3000;   
 import { logger } from "./Middlewares/Logger.js";
 import { Notfound } from "./Middlewares/Notfound.js";
@@ -108,14 +110,19 @@ app.use("/api/Tasks", TaskRoutes);
 
 // Server fronted in Production
 if (process.env.NODE_ENV === "production") {
-  const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+
+  console.log("✅ Serving frontend from:", path.join(__dirname, '../frontend/dist'));
 
   app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+    res.sendFile('index.html', { root: path.join(__dirname, '../frontend/dist') });
   });
 }
+
+
 
 
 
