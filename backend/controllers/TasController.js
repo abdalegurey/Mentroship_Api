@@ -1,5 +1,6 @@
 import Task from '../models/Task.js';
 import User from '../models/User.js';
+import { taskValidationSchema } from '../Schemas/taskSchema.js';
 export const TaskCreate =  async (req, res, next) => {
  try {
     const { title, description, status, dueDate } = req.body;
@@ -9,7 +10,7 @@ export const TaskCreate =  async (req, res, next) => {
       description,
       status,
       dueDate,
-      createdBy: req.user._id // Assuming req.user is populated with the authenticated user's data
+      createdBy:req.user._id // Assuming req.user is populated with the authenticated user's data
     });
 
     const savedTask = await task.save();
@@ -24,15 +25,37 @@ export const TaskCreate =  async (req, res, next) => {
   }
 };
 
+export const singlegettasks=async (req, res, next) => {
+
+    const id= req.params.id
+    try {
+        const task = await Task.findOne({
+          _id: id,
+            createdBy: req.user._id
+        });
+        console.log("task",task)
+
+        if (!task) {
+            return res.status(404).json({ message: 'Task not found or does not belong to the user' });
+        }
+
+        res.status(200).json(task);
+    } catch (err) {
+        next(err);
+    }
+};
+
 export const getTasks=async (req, res, next) => {
      try{
 
-        const task= await Task.find({ createdBy: req.user._id })
+        const task= await Task.find({
+            createdBy:req.user._id
+        }).sort({
+            
+createdAt:-1
+        })
 
-        res.status(200).json({
-            message: 'Tasks retrieved successfully',
-            tasks: task
-        });
+        res.status(200).json(task);
 
      }catch(err) {
         next(err);

@@ -1,14 +1,16 @@
 // const express= require("express");
-import express from "express";
+import express from 'express'; 
 const app = express();
+import path from 'path';
+import { fileURLToPath } from 'url';
 //const PORT = 3000;   
 import { logger } from "./Middlewares/Logger.js";
 import { Notfound } from "./Middlewares/Notfound.js";
 import { ErrorHandler } from "./Middlewares/ErrorHandler.js";
-import helmet from 'helmet';
+// import helmet from 'helmet';
 
 
-app.use(logger);
+ app.use(logger);
 
 // app.use(helmet());
 
@@ -51,9 +53,13 @@ const PORT = process.env.PORT  || 3000; // Use environment variable or default t
 
 
 const allowedOrigins = [
-  'http://localhost:5173',
+  'http://localhost:5175',
+    'http://localhost:5173',
+
   'http://localhost:3000',
   'http://localhost:5879',
+  'http://localhost:5177',
+  'http://localhost:5174'
 ];
 
 app.use(cors({
@@ -87,18 +93,35 @@ app.get('/', (req, res) => {
 
 //middleware
 
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use("/users",userRoutes);
+app.use("/api/users",userRoutes);
 
-app.use("/posts",posts)
-app.use("/auth", authRoutes);
+app.use("/api/posts",posts)
+app.use("/api/auth", authRoutes);
 
-app.use("/admin",adminRoutes)
+app.use("/api/admin",adminRoutes)
 
- app.use("/upload", uploadRoutes);
+ app.use("/api/upload", uploadRoutes);
 
- app.use("/Tasks", TaskRoutes)
+app.use("/api/Tasks", TaskRoutes);
+
+// Server fronted in Production
+
+if (process.env.NODE_ENV === "production") {
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    console.log("dirname", __dirname);
+
+    app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+    // Serve the frontend app
+
+    app.get(/.*/, (req, res) => {
+        res.send(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
+    })
+}
+
 
 app.use(Notfound);
 
@@ -168,3 +191,6 @@ app.listen(PORT, () => {
 });
 
 // To run this server, use the command: node index.js
+
+
+// mongodb+srv://abdalegureyguled:<db_password>@cluster0.sxz8rjf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0

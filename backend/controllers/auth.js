@@ -34,7 +34,7 @@ export const registerUser = async (req, res, next) => {
     // Generate a token for the user
 
     const token =generateToken(user._id);
-        res.status(201).json({ token });
+        res.status(201).json({ token,user });
     
 
 
@@ -70,7 +70,7 @@ export const loginUser= async (req, res, next) => {
 
         // Generate a token for the user
         const token = generateToken(userExists._id);
-        res.status(200).json({ token });
+        res.status(200).json({ token, userExists });
 
 
         

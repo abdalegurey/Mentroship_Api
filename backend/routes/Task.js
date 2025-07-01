@@ -1,5 +1,5 @@
 import express from "express";
-import { getTasks, TaskCreate, UpdateTask,DeleteTask } from "../controllers/TasController.js";
+import { getTasks, TaskCreate, UpdateTask,DeleteTask, singlegettasks } from "../controllers/TasController.js";
 import { taskValidationSchema } from "../Schemas/taskSchema.js";
 import { validate } from "../Middlewares/validateZod.js";
 import { protect } from "../Middlewares/auth.js";
@@ -50,10 +50,12 @@ const router = express.Router();
  */
 
 
-router.get("/getTasks", protect, getTasks);
+router.get("/getAllTasks",protect, getTasks);
 
-router.post("/CreateTask", protect, validate(taskValidationSchema),  TaskCreate);
+router.get("/getTasks/:id",protect,singlegettasks)
 
+router.post("/CreateTask",protect,TaskCreate);
+//protect, validate(taskValidationSchema), 
 /**
  * @swagger
  * /Tasks/UpdateTask/{id}:
