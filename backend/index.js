@@ -116,18 +116,19 @@ app.get('/api/health', (req, res) => {
 
 // Server fronted in Production
 
-if (process.env.NODE_ENV === "production") {
 
-    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-    app.use(express.static(path.join(__dirname, '../frontend/dist')));
+const frontendPath = path.resolve(__dirname, './frontend/dist'); // Note: use ./ instead of ../
 
-    // Serve the frontend app
+console.log("✅ Serving frontend from:", frontendPath);
 
-    app.get(/.*/, (req, res) => {
-        res.send(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
-    })
-}
+app.use(express.static(frontendPath));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(frontendPath, 'index.html'));
+});
 
 
 
