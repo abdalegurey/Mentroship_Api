@@ -81,10 +81,10 @@ let users = [
   { id: 2, name: 'Fatima' },
   { id: 3, name: 'Zubeyr' }
 ];
-app.get('/', (req, res) => {
-//  res.send('Hello from Express!');
-      res.json(users)
-});
+// app.get('/', (req, res) => {
+// //  res.send('Hello from Express!');
+//       res.json(users)
+// });
 
 
 //console.log(process.env)
