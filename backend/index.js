@@ -78,11 +78,11 @@ app.use(cors({
 
 app.use(morgan("combined"));
 
-let users = [
-  { id: 1, name: 'Ayaan' },
-  { id: 2, name: 'Fatima' },
-  { id: 3, name: 'Zubeyr' }
-];
+// let users = [
+//   { id: 1, name: 'Ayaan' },
+//   { id: 2, name: 'Fatima' },
+//   { id: 3, name: 'Zubeyr' }
+// ];
 // app.get('/', (req, res) => {
 // //  res.send('Hello from Express!');
 //       res.json(users)
@@ -97,9 +97,9 @@ let users = [
 
 // app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use("/api/users",userRoutes);
+// app.use("/api/users",userRoutes);
 
-app.use("/api/posts",posts)
+// app.use("/api/posts",posts)
 app.use("/api/auth", authRoutes);
 
 app.use("/api/admin",adminRoutes)
@@ -108,18 +108,25 @@ app.use("/api/admin",adminRoutes)
 
 app.use("/api/Tasks", TaskRoutes);
 
+app.get('/api/health', (req, res) => {
+    res.json("Server is working... 😊");
+})
+
+
+
 // Server fronted in Production
+
 if (process.env.NODE_ENV === "production") {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
 
-  console.log("✅ Serving frontend from:", path.join(__dirname, '../frontend/dist'));
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+    app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-  app.get('*', (req, res) => {
-    res.sendFile('index.html', { root: path.join(__dirname, '../frontend/dist') });
-  });
+    // Serve the frontend app
+
+    app.get(/.*/, (req, res) => {
+        res.send(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
+    })
 }
 
 
