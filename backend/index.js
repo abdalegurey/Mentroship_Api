@@ -100,35 +100,35 @@ app.use(morgan("combined"));
 // app.use("/api/users",userRoutes);
 
 // app.use("/api/posts",posts)
+
 app.use("/api/auth", authRoutes);
 
-app.use("/api/admin",adminRoutes)
+// app.use("/api/admin",adminRoutes)
 
- app.use("/api/upload", uploadRoutes);
+//  app.use("/api/upload", uploadRoutes);
 
-app.use("/api/Tasks", TaskRoutes);
+ app.use("/api/Tasks", TaskRoutes);
 
-app.get('/api/health', (req, res) => {
-    res.json("Server is working... 😊");
-})
+// app.get('/api/health', (req, res) => {
+//     res.json("Server is working... 😊");
+// })
 
 
 
 // Server fronted in Production
 
+if (process.env.NODE_ENV === "production") {
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const frontendPath = path.resolve(__dirname, './frontend/dist'); // Note: use ./ instead of ../
+    app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-console.log("✅ Serving frontend from:", frontendPath);
+    // Serve the frontend app
 
-app.use(express.static(frontendPath));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(frontendPath, 'index.html'));
-});
+    app.get(/.*/, (req, res) => {
+        res.send(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
+    })
+}
 
 
 
