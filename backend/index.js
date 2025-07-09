@@ -99,6 +99,7 @@ app.use(morgan("combined"));
  app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // app.use("/api/users",userRoutes);
+//
 
 // app.use("/api/posts",posts)
 app.use("/api/auth", authRoutes);
