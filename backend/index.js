@@ -96,7 +96,7 @@ app.use(morgan("combined"));
 
 //middleware
 
-// app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // app.use("/api/users",userRoutes);
 
@@ -116,17 +116,20 @@ app.get('/api/health', (req, res) => {
 
 
 // Server fronted in Production
+// Server fronted in Production
 
 if (process.env.NODE_ENV === "production") {
-  const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-  app.get(/.*/, (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-  });
+    app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+    // Serve the frontend app
+
+    app.get(/.*/, (req, res) => {
+        res.send(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
+    })
 }
-
 
 
 
