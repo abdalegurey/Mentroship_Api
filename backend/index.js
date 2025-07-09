@@ -148,64 +148,9 @@ mongoose.connect(process.env.NODE_ENV =="development"? process.env.MONGO_URI_DEV
 
 
 
-// app.post('/', (req, res) => {
-//  const userData = req.body;
 
-// //  const newUser={
-// //     id: users.length + 1,
-// //     name: userData.name,
-   
-// //  }
-
-
-//     //  users.push(newUser);
-
-//     //  res.status(201).json(newUser);
-
-
-//  req.json(users)
- 
-// }); 
-
-//get one
-
-// app.get('/users/:id', (req, res) => {
-//   const user = users.find(u => u.id == req.params.id);
-//   if (!user) return res.status(404).send('User not found');
-//   res.json(user);
-// });
-
-
-// app.put('/users/:id', (req, res) => {
-
-//      const user = users.find(u => u.id == req.params.id);
-//   if (!user) return res.status(404).send('User not found');
-
-//   user.name = req.body.name;
-//   //  const updatedData = req.body;
-
-//     res.json(user)
- 
-
-// });
-
-// DELETE route
-// app.delete('/users/:id', (req, res) => {
-// //   const userId = req.params.id;
-// //   res.send(`User ${userId} deleted`);
-
-//   users = users.filter(u => u.id != req.params.id);
-//     if (!users) return res.status(404).send('User not found');
-
-    
-//   res.send('User deleted');
-// });
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-// To run this server, use the command: node index.js
-
-
-// mongodb+srv://abdalegureyguled:<db_password>@cluster0.sxz8rjf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
