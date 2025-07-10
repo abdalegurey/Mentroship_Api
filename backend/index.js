@@ -63,7 +63,8 @@ const allowedOrigins = [
   'http://localhost:5177',
   'http://localhost:5174',
   "https://mentroship-api.onrender.com/",
-  "https://mentroship-api.vercel.app"
+  "https://mentroship-api.vercel.app",
+  "https://task-management-system-xi-henna.vercel.app/"
 ];
 
 app.use(cors({
