@@ -54,20 +54,20 @@ const PORT = process.env.PORT  || 3000; // Use environment variable or default t
 
 
 
+
 const allowedOrigins = [
   'http://localhost:5175',
-    'http://localhost:5173',
-
+  'http://localhost:5173',
   'http://localhost:3000',
   'http://localhost:5879',
   'http://localhost:5177',
   'http://localhost:5174',
-  "https://mentroship-api.onrender.com/",
-  "https://mentroship-api.vercel.app",
-  "https://task-management-system-xi-henna.vercel.app"
+  'https://mentroship-api.onrender.com',
+  'https://mentroship-api.vercel.app',
+  'https://task-management-system-xi-henna.vercel.app'
 ];
 
-app.use(cors({
+const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -75,8 +75,11 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-}));
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 
 
 app.use(morgan("combined"));
